@@ -180,7 +180,7 @@ namespace GdS4
         {
             _connUpDate();
             
-            if (!CheckInTable())
+            if (!CheckInTable(tableViser))
             {
                 if(textBoxNumSerie.Text == "")
                 {
@@ -495,10 +495,10 @@ namespace GdS4
             _listComboBoxTable();
             UpDateTableau();
         }
-        private bool CheckInTable()
+        private bool CheckInTable(string tableViser)
         {
             bool inTable = false;
-            MySqlCommand lireNS = new MySqlCommand("select * from " + comboBoxSelectedTable.Text, conn);
+            MySqlCommand lireNS = new MySqlCommand("select * from " + tableViser, conn);
             conn.Open();
             MySqlDataReader dataR = lireNS.ExecuteReader();
             while(dataR.Read())

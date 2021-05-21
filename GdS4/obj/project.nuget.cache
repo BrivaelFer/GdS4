@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "J0bEJ38HYH2O5LVE6Z0kzRk/F+J+b/YOvXr08PR5Lq3AJuw90mUpaLanFqMzO5b11dYEV2NCwAZH6OBCtxwlug==",
+  "dgSpecHash": "nEVEnl6f82BGSdJ2uI1tOGaglSmCsvaRF7CYsAnK8bXDye/S1ursYQrq/1amaE3uocwhD8wXRgq/bAVl0udCSQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\briva\\source\\repos\\GdS4\\GdS4\\GdS4.csproj",
+  "projectFilePath": "C:\\Users\\briva\\Documents\\GitHub\\GdS4\\GdS4\\GdS4.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\briva\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\briva\\.nuget\\packages\\google.protobuf\\3.11.4\\google.protobuf.3.11.4.nupkg.sha512",
