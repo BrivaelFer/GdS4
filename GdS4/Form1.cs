@@ -220,9 +220,7 @@ namespace GdS4
             try
             {
                 conn.Open();
-                tableVise = comboBoxSelectedTable.Text;
-
-               
+                
 
                 MySqlCommand suppApp = new MySqlCommand("DELETE FROM " + tableVise + " WHERE id = " + idApp, conn);
                 suppApp.ExecuteNonQuery();
