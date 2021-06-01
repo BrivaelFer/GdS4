@@ -246,8 +246,6 @@ namespace GdS4
             MySqlCommand lireNS;
             MySqlDataReader dataR;
 
-           
-
             conn.Open();
             lireNS = new MySqlCommand("select * from " + comboBoxSelectedTable.Text, conn);
             dataR = lireNS.ExecuteReader();
@@ -277,12 +275,8 @@ namespace GdS4
 
             }
 
-
             conn.Close();
-                
-               
-
-            
+             
             if (!trouver)
             {
                 if(!inListView)
@@ -301,11 +295,10 @@ namespace GdS4
         private void _creeCSV()
         {
             _connUpDate();
-            List<string> CSV = new List<string> {"\" id\",\"Date\",\"N/S\",\"Marque\",\"Modèle\"" };
+            
             string LeCSV = "\" id\",\"Date\",\"N/S\",\"Marque\",\"Modèle\"";
             try
             {
-                listViewSelectedTable.Items.Clear();
                 conn.Open();
                 MySqlCommand readTable = new MySqlCommand("SELECT * FROM " + comboBoxTableAfficher.Text , conn);
                 MySqlDataReader lec = readTable.ExecuteReader();
@@ -316,13 +309,11 @@ namespace GdS4
                     string Nseri = lec["numSeri"].ToString();
                     string Marq = lec["marque"].ToString();
                     string Mod = lec["model"].ToString();
+
                     date = date.Replace("00:00:00", String.Empty);
+
                     string toList = "\"" + id + "\",\"" + date + "\",\"" + Nseri + "\",\"" + Marq + "\",\"" + Mod + "\"";
-                    CSV.Add(toList);
                     LeCSV = LeCSV + "\n" + toList;
-
-
-
                 }
                 
                 conn.Close();

@@ -68,20 +68,21 @@ namespace GdS4
             try
             {
                 conn.Open();
-                conn.Close();
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Erreur");
                 
             }
+            
             MySqlCommand ajoutMarque = new MySqlCommand("insert into marque(nmarque) values(@nmarque)", conn);
             ajoutMarque.Parameters.AddWithValue("@nmarque", textBoxMM.Text);
             ajoutMarque.ExecuteNonQuery();
             ajoutMarque.Parameters.Clear();
             textBoxMM.Clear();
             _ListerMarque();
-
+            conn.Close();
         }
 
         private void buttonAddModel_Click(object sender, EventArgs e)
@@ -105,6 +106,7 @@ namespace GdS4
             ajoutModel.ExecuteNonQuery();
             ajoutModel.Parameters.Clear();
             textBoxAddMod.Clear();
+            conn.Close();
         }
         private void _ListerMarque()
         {
@@ -207,7 +209,14 @@ namespace GdS4
                     comboxSelectTable.Items.Add(dataR.GetString(0));
             }
             nombreTableVerif(comboxSelectTable.Items.Count);
-            comboxSelectTable.SelectedIndex = parDefautTable;
+            try
+            {
+                comboxSelectTable.SelectedIndex = parDefautTable;
+            }
+            catch
+            {
+
+            }
             conn.Close();
         }
 
