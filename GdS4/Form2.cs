@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
 using MySql.Data.MySqlClient;
@@ -18,7 +13,7 @@ namespace GdS4
         string truc = "SERVER=" + ConfigurationManager.AppSettings["adServ"] + ";PORT=" + ConfigurationManager.AppSettings["port"] +
             ";DATABASE=" + ConfigurationManager.AppSettings["bdnom"] + ";UID=" + ConfigurationManager.AppSettings["uid"] +
             ";PASSWORD=" + ConfigurationManager.AppSettings["motDePasse"];
-        private MySqlCommand Table;
+        
         
 
 
@@ -68,7 +63,13 @@ namespace GdS4
             try
             {
                 conn.Open();
-                
+                MySqlCommand ajoutMarque = new MySqlCommand("insert into marque(nmarque) values(@nmarque)", conn);
+                ajoutMarque.Parameters.AddWithValue("@nmarque", textBoxMM.Text);
+                ajoutMarque.ExecuteNonQuery();
+                ajoutMarque.Parameters.Clear();
+                textBoxMM.Clear();
+                _ListerMarque();
+                conn.Close();
             }
             catch (Exception ex)
             {
@@ -76,13 +77,7 @@ namespace GdS4
                 
             }
             
-            MySqlCommand ajoutMarque = new MySqlCommand("insert into marque(nmarque) values(@nmarque)", conn);
-            ajoutMarque.Parameters.AddWithValue("@nmarque", textBoxMM.Text);
-            ajoutMarque.ExecuteNonQuery();
-            ajoutMarque.Parameters.Clear();
-            textBoxMM.Clear();
-            _ListerMarque();
-            conn.Close();
+           
         }
 
         private void buttonAddModel_Click(object sender, EventArgs e)
@@ -93,6 +88,13 @@ namespace GdS4
             try
             {
                 conn.Open();
+                MySqlCommand ajoutModel = new MySqlCommand("insert into model(nummod,marque) values(@nummod,@marque)", conn);
+                ajoutModel.Parameters.AddWithValue("@nummod", textBoxAddMod.Text);
+                ajoutModel.Parameters.AddWithValue("@marque", comboBoxModMarque.Text);
+                ajoutModel.ExecuteNonQuery();
+                ajoutModel.Parameters.Clear();
+                textBoxAddMod.Clear();
+                conn.Close();
 
             }
             catch (Exception ex)
@@ -100,13 +102,7 @@ namespace GdS4
                 MessageBox.Show(ex.Message, "Erreur");
 
             }
-            MySqlCommand ajoutModel = new MySqlCommand("insert into model(nummod,marque) values(@nummod,@marque)", conn);
-            ajoutModel.Parameters.AddWithValue("@nummod", textBoxAddMod.Text);
-            ajoutModel.Parameters.AddWithValue("@marque", comboBoxModMarque.Text);
-            ajoutModel.ExecuteNonQuery();
-            ajoutModel.Parameters.Clear();
-            textBoxAddMod.Clear();
-            conn.Close();
+            
         }
         private void _ListerMarque()
         {
@@ -142,30 +138,20 @@ namespace GdS4
                 MessageBox.Show("Vous devez nommer la Table.");
                 return;
             }
-            MySqlCommand realTable = new MySqlCommand("Show tables from " + ConfigurationManager.AppSettings["bdnom"], conn);
-            conn.Open();
-            MySqlDataReader dataR = realTable.ExecuteReader();
-            while (dataR.Read())
-            {
-
-                comboxSelectTable.Items.Add(dataR.GetString(0));
-            }
-            conn.Close();
-
-            
+           
             try
             {
                 conn.Open();
             
-                Table = new MySqlCommand ("CREATE TABLE IF NOT EXISTS `" + nomDeTable + "`(`id` INT AUTO_INCREMENT ,`Date` DATE NOT NULL,`numSeri` varchar(100) NOT NULL," +
+                MySqlCommand Table = new MySqlCommand ("CREATE TABLE IF NOT EXISTS `" + nomDeTable + "`(`id` INT AUTO_INCREMENT ,`Date` DATE NOT NULL,`numSeri` varchar(100) NOT NULL," +
                     "`marque` varchar(100) NOT NULL, `model` varchar(100) NOT NULL, PRIMARY KEY(`id`)) COLLATE=`utf8_general_ci` ENGINE=InnoDB;", conn);
                 Table.ExecuteNonQuery();
 
                 conn.Close();
             }
-            catch 
+            catch (Exception ex)
             {
-                MessageBox.Show("");
+                MessageBox.Show("Erreur dans l'ajout de table.\n" + ex);
             }
             
         }
